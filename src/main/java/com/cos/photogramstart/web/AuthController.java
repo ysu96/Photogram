@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cos.photogramstart.domain.user.User;
-import com.cos.photogramstart.handler.ex.CustumValidationException;
+import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.AuthService;
 import com.cos.photogramstart.web.dto.auth.SignupDto;
 
@@ -55,8 +55,8 @@ public class AuthController {
 			for(FieldError error : bindingResult.getFieldErrors()) {
 				errorMap.put(error.getField(), error.getDefaultMessage());
 			}
-			throw new CustumValidationException("유효성 검사 실패함", errorMap);
-			//유효성 검사 실패 -> BindingResult -> errorMap -> throw CustumValidationException -> ControllerExceptionHandler -> validationException함수 -> CMRespDto 리턴
+			throw new CustomValidationException("유효성 검사 실패함", errorMap);
+			//유효성 검사 실패 -> BindingResult -> errorMap -> throw CustomValidationException -> ControllerExceptionHandler -> validationException함수 -> CMRespDto 리턴
 		}
 		else {
 			//signupDto -> User로 만들기

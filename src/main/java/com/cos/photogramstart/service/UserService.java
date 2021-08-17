@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
+import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,13 @@ public class UserService {
 	@Transactional
 	public User 회원수정(int id, User user) {
 		//1. 영속화
-		User userEntity = userRepository.findById(id).get(); //리턴값이 optional이라 .get() 사용 / 회원이 있는지 없는지 찾아
+		
+		//1) 무조건 찾았다, 걱정마 - get()   2) 못 찾았어 익셉션 발동시킬께 - orElseThrow() 
+		User userEntity = userRepository.findById(id).orElseThrow( () -> { // 인자가 잘못된 경우
+				return new CustomValidationApiException("찾을 수 없는 id입니다.");
+		}); //리턴값이 optional이라  / 회원이 있는지 없는지 찾아
+		
+		
 		// 영속성 컨텍스트 : 스프링부트 서버와 데이터베이스 사이에 이 객체가 영속화되어 들어옴
 		// 영속화된 오브젝트는 변경하면 바로 데이터베이스에 적용이 된다!
 		
