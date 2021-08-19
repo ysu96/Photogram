@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.photogramstart.handler.ex.CustomApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.util.Script;
@@ -36,4 +37,10 @@ public class ControllerExceptionHandler {
 		return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST ); 
 	}
 
+	@ExceptionHandler(CustomApiException.class) //Ajax통신 - 데이터 응답
+	public  ResponseEntity<?> apiException(CustomApiException e) { 
+		//update.js에서 fail 부분을 실행하기 위해 http 상태코드를 같이 넘겨줌
+		return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), null), HttpStatus.BAD_REQUEST ); 
+	}
+	
 }

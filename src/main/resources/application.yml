@@ -21,7 +21,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update # create로 하면 재실행할때마다 새로
+      ddl-auto: update # create로 하면 재실행할때마다 새로, none, update도 있음
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
