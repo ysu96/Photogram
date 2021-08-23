@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.photogramstart.handler.ex.CustomApiException;
+import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.util.Script;
@@ -27,7 +28,12 @@ public class ControllerExceptionHandler {
 	// -> 응답 받는 쪽이 클라이언트면 Script, 개발자면 CMRespDto 가 좋음 
 	@ExceptionHandler(CustomValidationException.class) //해당 exception이 발생하면 이 함수가 가로챔
 	public  String validationException(CustomValidationException e) {
-		return Script.back(e.getErrorMap().toString()); //스크립트 리턴
+		if(e.getErrorMap() == null) {
+			return Script.back(e.getMessage());
+		}else {
+			return Script.back(e.getErrorMap().toString()); //스크립트 리턴
+		}
+		
 	}
 
 	
@@ -43,4 +49,8 @@ public class ControllerExceptionHandler {
 		return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), null), HttpStatus.BAD_REQUEST ); 
 	}
 	
+	@ExceptionHandler(CustomException.class)
+	public  String exception(CustomException e) {
+		return Script.back(e.getMessage());
+	}
 }

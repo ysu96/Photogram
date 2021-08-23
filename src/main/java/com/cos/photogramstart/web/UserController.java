@@ -4,15 +4,25 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cos.photogramstart.config.auth.PrincipalDetails;
+import com.cos.photogramstart.domain.user.User;
+import com.cos.photogramstart.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class UserController {
+	private final UserService userService;
+
 	@GetMapping("/user/{id}")
-	public String profile(@PathVariable int id) {
+	public String profile(@PathVariable int id, Model model) {
+		User userEntity = userService.회원프로필(id);
+		model.addAttribute("user", userEntity); // 회원 정보, 이미지 목록, 게시물 개수 등 보여주기 위해 넘겨줌
 		return "user/profile";
 	}
 
