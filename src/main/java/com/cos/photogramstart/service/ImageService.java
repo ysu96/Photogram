@@ -44,7 +44,7 @@ public class ImageService {
 		
 		//image 테이블에 저장
 		Image image = imageUploadDto.toEntity(imageFileName, principalDetails.getUser()); //어차피 앞 폴더 경로는 yml에 있음
-		Image imageEntity = imageRepository.save(image);
+		imageRepository.save(image);
 		
 		//System.out.println(imageEntity);
 	}

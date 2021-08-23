@@ -19,7 +19,9 @@ spring:
     password: cos1234
     
   jpa:
-    open-in-view: true
+    open-in-view: true 
+    # 이게 false로 되어있으면 db접근 세션이 service return할 때 종료됨
+    # true 이면 view단까지 세션을 오픈한다는 뜻 (LAZY로 해도 가져올 수 있음)
     hibernate:
       ddl-auto: update # create로 하면 재실행할때마다 새로, none, update도 있음
       naming:

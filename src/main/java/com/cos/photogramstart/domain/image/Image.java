@@ -3,6 +3,7 @@ package com.cos.photogramstart.domain.image;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class Image {
 	private String postImageUrl; // 사진을 전송받아서 그 사진을 서버의 특정 폴더에 저장 - DB에 그 저장된 경로를 insert
 	
 	@JoinColumn(name = "userId")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user; //누가 업로드 했는지
 	
 	//이미지 좋아요
