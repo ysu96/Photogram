@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface SubscribeRepository extends JpaRepository<Subscribe, Integer>{
 	
 	//native query 작성, 쿼리 내부의 :은 함수의 변수를 바인드해서 넣겠다는 문법
+	// 해당 객체를 받는 쿼리밖에 사용못함 (Subscribe)
+	// 새로운 형식의 dto로 받으려면 SubscribeService 참고 (qlrm)
+	
 	@Modifying //데이터베이스에 변경을 주는 네이티브 쿼리는 이 어노테이션 필요 (INSERT, UPDATE, DELETE)
 	@Query(value = "INSERT INTO subscribe(fromUserId, toUserId, createDate) VALUES(:fromUserId, :toUserId, now())", nativeQuery = true)
 	void mSubscribe(int fromUserId, int toUserId);
