@@ -3,12 +3,12 @@ package com.cos.photogramstart.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.photogramstart.config.auth.PrincipalDetails;
 import com.cos.photogramstart.domain.image.Image;
@@ -21,6 +21,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ImageService {
 	private final ImageRepository imageRepository;
+	
+	@Transactional(readOnly = true) // 영속성 컨텍스트에서 변경감지를 해서 더티체킹, flush(반영) -> readOnly면 이 짓 안해도됨
+	public List<Image> 이미지스토리(int principalId){
+		List<Image> images = imageRepository.mStory(principalId);
+		return images;
+	}
 	
 	@Value("${file.path}") //application.yml 파일에 있는 값을 가져오기 위해, 사용자가 직접 yml에 만들어도 됨
 	private String uploadFolder; // 여기에 path가 자동으로 담김
