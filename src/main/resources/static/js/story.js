@@ -46,12 +46,21 @@ function getStoryItem(image) {
 	<div class="sl__item__contents">
 		<div class="sl__item__contents__icon">
 
-			<button>
-				<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>
+			<button>`;
+			
+			if(image.likeState){
+				item+=`<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+			}
+			else{
+				item+=`<i class="far fa-heart" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+			}
+				
+				
+		item += `		
 			</button>
 		</div>
 
-		<span class="like"><b id="storyLikeCount-1">3 </b>likes</span>
+		<span class="like"><b id="storyLikeCount-${image.id}">${image.likeCount} </b>likes</span>
 
 		<div class="sl__item__contents__content">
 			<p>${image.caption}</p>
@@ -101,14 +110,44 @@ $(window).scroll(() => {
 // (3) 좋아요, 안좋아요
 function toggleLike(imageId) {
 	let likeIcon = $(`#storyLikeIcon-${imageId}`);
-	if (likeIcon.hasClass("far")) {
-		likeIcon.addClass("fas");
-		likeIcon.addClass("active");
-		likeIcon.removeClass("far");
-	} else {
-		likeIcon.removeClass("fas");
-		likeIcon.removeClass("active");
-		likeIcon.addClass("far");
+	
+	if (likeIcon.hasClass("far")) { //좋아요 안눌린 상태 -> 좋아요 하겠다
+		$.ajax({
+			type:"post",
+			url: `/api/image/${imageId}/likes`,
+			dataType:"json"
+		}).done(res=>{
+			
+			let likeCountStr = $(`#storyLikeCount-${imageId}`).text(); // 해당 아이디에 접근해서 내부 텍스트를 가져와 (좋아요 숫자)
+			let likeCount = Number(likeCountStr) + 1;
+			$(`#storyLikeCount-${imageId}`).text(likeCount);
+			
+			likeIcon.addClass("fas");
+			likeIcon.addClass("active");
+			likeIcon.removeClass("far");
+		}).fail(error=>{
+			console.log("오류", error);
+		});
+		
+		
+	} else { //좋아요 눌린 상태 -> 좋아요 취소 하겠다
+		$.ajax({
+			type:"delete",
+			url: `/api/image/${imageId}/likes`,
+			dataType:"json"
+		}).done(res=>{
+			let likeCountStr = $(`#storyLikeCount-${imageId}`).text(); // 해당 아이디에 접근해서 내부 텍스트를 가져와 (좋아요 숫자)
+			let likeCount = Number(likeCountStr) - 1;
+			$(`#storyLikeCount-${imageId}`).text(likeCount);
+			
+			
+			likeIcon.removeClass("fas");
+			likeIcon.removeClass("active");
+			likeIcon.addClass("far");
+		}).fail(error=>{
+			console.log("오류", error);
+		});
+		
 	}
 }
 
