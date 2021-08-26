@@ -8,14 +8,17 @@
  */
 
 // (1) 스토리 로드하기
+
+let page = 0;
+
 function storyLoad() {
 	$.ajax({
 		/*type default는 get*/
-		url:`/api/image`,
+		url:`/api/image?page=${page}`,
 		dataType:"json"
 	}).done(res=>{
 		
-		res.data.forEach((image)=>{
+		res.data.content.forEach((image)=>{
 			let storyItem = getStoryItem(image);
 			$("#storyList").append(storyItem);
 		})
@@ -81,7 +84,17 @@ function getStoryItem(image) {
 
 // (2) 스토리 스크롤 페이징하기
 $(window).scroll(() => {
-
+	//문서의 높이가 윈도우 높이와 윈도우 스크롤탑의 합이 되었을 때가 스크롤 가장 마지막부분!
+	//console.log("윈도우 st", $(window).scrollTop());
+	//console.log("문서 h", $(document).height());
+	//console.log("윈도우 h", $(window).height());
+	
+	let checkNum = $(window).scrollTop() - ($(document).height() - $(window).height());
+	
+	if(checkNum < 1 && checkNum > -1){
+		page++;
+		storyLoad();
+	}
 });
 
 
