@@ -66,7 +66,7 @@ function getStoryItem(image) {
 			<p>${image.caption}</p>
 		</div>
 
-		<div id="storyCommentList-1">
+		<div id="storyCommentList-${image.id}">
 
 			<div class="sl__item__contents__comment" id="storyCommentItem-1"">
 				<p>
@@ -82,8 +82,8 @@ function getStoryItem(image) {
 		</div>
 
 		<div class="sl__item__input">
-			<input type="text" placeholder="댓글 달기..." id="storyCommentInput-1" />
-			<button type="button" onClick="addComment()">게시</button>
+			<input type="text" placeholder="댓글 달기..." id="storyCommentInput-${image.id}" />
+			<button type="button" onClick="addComment(${image.id})">게시</button>
 		</div>
 
 	</div>
@@ -152,13 +152,14 @@ function toggleLike(imageId) {
 }
 
 // (4) 댓글쓰기
-function addComment() {
+function addComment(imageId) {
 
-	let commentInput = $("#storyCommentInput-1");
-	let commentList = $("#storyCommentList-1");
+	let commentInput = $(`#storyCommentInput-${imageId}`);
+	let commentList = $(`#storyCommentList-${imageId}`);
 
 	let data = {
-		content: commentInput.val()
+		content: commentInput.val(),
+		imageId: imageId
 	}
 
 	if (data.content === "") {
@@ -166,6 +167,19 @@ function addComment() {
 		return;
 	}
 
+	$.ajax({
+		type:"post",
+		url:`/api/comment`,
+		data:	data, //보낼 데이터
+		contentType:"application/json; charset=utf-8", //보낼 타입
+		dataType:"json" //응답받을 타입
+		
+	}).done(res=>{
+		
+	}).fail(error=>{
+		
+	});
+	
 	let content = `
 			  <div class="sl__item__contents__comment" id="storyCommentItem-2""> 
 			    <p>
