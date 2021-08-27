@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.cos.photogramstart.domain.image.Image;
 import com.cos.photogramstart.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +48,7 @@ public class Likes {
 	@ManyToOne
 	private Image image;
 	
+	@JsonIgnoreProperties({"images"}) // 무한참조 방지 image 불러올때 likes도 불러오고 likes불러오면 user도 불러오는데 user안에 images가 또있어서
 	@JoinColumn(name="userId")
 	@ManyToOne
 	private User user;
