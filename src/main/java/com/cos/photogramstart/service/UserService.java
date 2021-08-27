@@ -40,6 +40,10 @@ public class UserService {
 		
 		dto.setSubscribeCount(subscribeCount);
 		dto.setSubscribeState(subscribeState==1);
+		
+		userEntity.getImages().forEach((image)->{
+			image.setLikeCount(image.getLikes().size());
+		});
 		return dto;
 	}
 	
