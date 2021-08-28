@@ -1,20 +1,15 @@
 package com.cos.photogramstart.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cos.photogramstart.domain.user.User;
-import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.AuthService;
 import com.cos.photogramstart.web.dto.auth.SignupDto;
 
@@ -49,26 +44,14 @@ public class AuthController {
 	public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) { // key=value (x-www-form-urlencoded) , 객체 안의 변수들에 다 담겨서 전달됨 (변수 이름 같아야함!)
 		//log.info(signupDto.toString()); //확인용
 		
-		//@Valid에서 오류가 발생하면 BindingResult에 오류를 다 모아줌 -> getFieldErrors 콜렉션에 다 모아줌
-		if(bindingResult.hasErrors()) {
-			Map<String, String> errorMap = new HashMap<>();
-			for(FieldError error : bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(), error.getDefaultMessage());
-			}
-			throw new CustomValidationException("유효성 검사 실패함", errorMap);
-			//유효성 검사 실패 -> BindingResult -> errorMap -> throw CustomValidationException -> ControllerExceptionHandler -> validationException함수 -> CMRespDto 리턴
-		}
-		else {
-			//signupDto -> User로 만들기
-			User user = signupDto.toEntity();
-			//log.info(user.toString());
+	
+		//signupDto -> User로 만들기
+		User user = signupDto.toEntity();
+		//log.info(user.toString());
 			
-			User userEntity = authService.회원가입(user);
+		User userEntity = authService.회원가입(user);
 			
-			return "auth/signin"; //회원가입 성공하면 로그인 페이지로
-		}
-		
-		
+		return "auth/signin"; //회원가입 성공하면 로그인 페이지로
 	}
 	
 	//CSRF 토큰 : 클라이언트가 서버에게 폼에 데이터를 넣고 서버에 전송할 때 
