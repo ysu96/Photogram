@@ -53,7 +53,7 @@ public class ValidationAdvice {
 	public Object advice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		
 		Object[] args = proceedingJoinPoint.getArgs();
-		System.out.println("=========== 그냥 ===========");
+	
 		for(Object arg: args) {
 			if(arg instanceof BindingResult) {
 				BindingResult bindingResult = (BindingResult) arg;

@@ -37,6 +37,12 @@ spring:
     user:
       name: test
       password: 1234   
+    oauth2:      client:        registration:
+          facebook:
+            client-id: 259291472535333
+            client-secret: 55440352e6ec2522d3331b4169f45874
+            scope:            - public_profile
+            - email          
 
 file: #이경로에 저장하겠다
   path: C:/workspace/springboot/upload/
