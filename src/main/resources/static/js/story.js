@@ -172,10 +172,10 @@ function addComment(imageId) {
 		imageId: imageId
 	}
 
-	if (data.content === "") {
+/*	if (data.content === "") {
 		alert("댓글을 작성해주세요!");
 		return;
-	}
+	}*/
 
 	$.ajax({
 		type:"post",
@@ -202,7 +202,8 @@ function addComment(imageId) {
 		commentList.prepend(content); //앞에 넣기
 		
 	}).fail(error=>{
-		console.log("실패");
+		console.log("실패", error.responseJSON.data.content);
+		alert(error.responseJSON.data.content);
 	});
 	
 
