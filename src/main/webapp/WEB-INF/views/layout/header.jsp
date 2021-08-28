@@ -36,7 +36,8 @@
 </head>
 
 <body>
-	
+	<!--  principalId 담아두는 곳, 이렇게하면 어디서든 principalId 사용가능?? -->
+	<input type="hidden" id="principalId" value="${principal.user.id}" />
 	<header class="header">
 		<div class="container">
 			<a href="/" class="logo">
@@ -57,3 +58,4 @@
 			</nav>
 		</div>
 	</header>
+
