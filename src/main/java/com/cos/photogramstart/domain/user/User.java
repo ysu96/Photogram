@@ -34,7 +34,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //번호증가 전략이 데이터베이스를 따라간다. (ex. mysql : auto increment)
 	private int id; //나중에 사용자가 많아지게 되면 Long을 써야함
 	
-	@Column(length = 20, unique = true) // 중복 아이디 방지!, 똑같은 아이디 쓰면 에러 발생시킴
+	@Column(length = 100, unique = true) // 중복 아이디 방지!, 똑같은 아이디 쓰면 에러 발생시킴, auth2login 위해 길이 늘림
 	private String username;
 	
 	@Column(nullable = false)

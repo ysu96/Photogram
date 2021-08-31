@@ -12,7 +12,7 @@ public class SignupDto {
 	//Dto : data transfer object , 통신을 위해 데이터를 담아두는 객체
 	
 	//https://bamdule.tistory.com/35 (@Valid 어노테이션 종류)
-	@Size(min=2, max = 20)
+	@Size(min=2, max = 20) 
 	@NotBlank
 	private String username;
 	
